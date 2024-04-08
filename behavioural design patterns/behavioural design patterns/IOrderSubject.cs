@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace behavioural_design_patterns;
 
-namespace behavioural_design_patterns
+public interface IOrderSubject
 {
-    public interface IOrderSubject
-    {
-        void Attach(IOrderObserver observer);
-        void Detach(IOrderObserver observer);
-        void Notify();
-    }
+    void Attach(IOrderObserver observer);
+    void Detach(IOrderObserver observer);
+    void Notify();
 }

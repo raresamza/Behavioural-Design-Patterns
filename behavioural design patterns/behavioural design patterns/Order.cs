@@ -1,46 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace behavioural_design_patterns;
 
-namespace behavioural_design_patterns
+public class Order : IOrderSubject
 {
-    public class Order : IOrderSubject
+    private List<IOrderObserver> _observers = new List<IOrderObserver>();
+    public string OrderId { get; }
+    public string Status { get; private set; }
+
+    public Order(string orderId)
     {
-        private List<IOrderObserver> _observers = new List<IOrderObserver>();
-        public string OrderId { get; }
-        public string Status { get; private set; }
+        OrderId = orderId;
+        Status = "New";
+    }
 
-        public Order(string orderId)
-        {
-            OrderId = orderId;
-            Status = "New";
-        }
+    public void Attach(IOrderObserver observer)
+    {
+        _observers.Add(observer);
+    }
 
-        public void Attach(IOrderObserver observer)
-        {
-            _observers.Add(observer);
-        }
+    public void Detach(IOrderObserver observer)
+    {
+        _observers.Remove(observer);
+    }
 
-        public void Detach(IOrderObserver observer)
+    public void Notify()
+    {
+        foreach (var observer in _observers)
         {
-            _observers.Remove(observer);
+            observer.Update(this);
         }
+    }
 
-        public void Notify()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update(this);
-            }
-        }
-
-        public void UpdateStatus(string newStatus)
-        {
-            Status = newStatus;
-            Console.WriteLine($"Order {OrderId} status updated: {Status}");
-            Notify();
-        }
+    public void UpdateStatus(string newStatus)
+    {
+        Status = newStatus;
+        Console.WriteLine($"Order {OrderId} status updated: {Status}");
+        Notify();
     }
 }
